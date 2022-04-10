@@ -15,7 +15,9 @@ class Options(Enum):
         self.command = command
         self.desc = desc
 
-def plot_diagram(figure, command, column):
+def plot_diagram(command):
+
+	figure = plt.figure()
 	data = []
 	oponent_data = []
 	number_of_events = []
@@ -26,7 +28,7 @@ def plot_diagram(figure, command, column):
 	for i, event in enumerate(oponent_fpl_data['current']):
 		oponent_data.append(event[command])
 	
-	ax = figure.add_subplot(1, 4, column)
+	ax = figure.add_subplot(1, 1, 1)
 	ax.plot(number_of_events, data, marker='o', label = 'Your data')
 	ax.plot(number_of_events, oponent_data, marker='o', label = 'Oponent data')
 
@@ -35,6 +37,10 @@ def plot_diagram(figure, command, column):
 		ax.annotate(str(j),xy=(i+0.1,j-2))
 	for i,j in zip(number_of_events, oponent_data):
 		ax.annotate(str(j),xy=(i+0.1,j-2))
+	mng = plt.get_current_fig_manager()
+	mng.resize(*mng.window.maxsize())
+
+	plt.show()
 
 
 def set_y_label(command):
@@ -61,13 +67,8 @@ oponent_id = input("Enter your oponent FPL id: ")
 fpl_data = requests.get('https://fantasy.premierleague.com/api/entry/' + id +'/history/').json()
 oponent_fpl_data = requests.get('https://fantasy.premierleague.com/api/entry/' + oponent_id +'/history/').json()
 
-fig = plt.figure()
-plot_diagram(fig, 'rank', 1)
-plot_diagram(fig, 'overall_rank', 2)
-plot_diagram(fig, 'points', 3)
-plot_diagram(fig, 'total_points', 4)
+plot_diagram('rank')
+plot_diagram('overall_rank')
+plot_diagram('points')
+plot_diagram('total_points')
 
-mng = plt.get_current_fig_manager()
-mng.resize(*mng.window.maxsize())
-
-plt.show()
