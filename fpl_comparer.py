@@ -53,7 +53,7 @@ def set_y_label(command):
 def add_legend(ax, command):
 	y_label = set_y_label(command)
 	
-	ax.set_xlabel("Event ID")
+	ax.set_xlabel("GW Number")
 	ax.set_ylabel(y_label)
 	ax.set_title(y_label + " data set. ")
 	for axis in [ax.xaxis, ax.yaxis]:
